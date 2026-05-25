@@ -11,7 +11,7 @@
 }
 
 .kehilangan-header {
-  background: #2e7d32;
+  background: #14532d; /* Diubah menjadi sama dengan warna Penemuan */
   color: #ffffff;
   padding: 18px 32px;
 }
@@ -84,8 +84,8 @@
 .kehilangan-card textarea:focus,
 .kehilangan-card select:focus {
   outline: none;
-  border-color: #2e7d32;
-  box-shadow: 0 0 0 1px rgba(46, 125, 50, 0.15);
+  border-color: #14532d; /* Diubah senada dengan header */
+  box-shadow: 0 0 0 1px rgba(20, 83, 45, 0.15);
 }
 
 input::placeholder,
@@ -154,21 +154,121 @@ textarea::placeholder {
   border-radius: 4px;
 }
 
+/* TAMPILAN STEPPER MULTI-STEP */
+.stepper-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.stepper-container::before {
+  content: "";
+  position: absolute;
+  top: 16px;
+  left: 30px;
+  right: 30px;
+  height: 2px;
+  background: #e5e7eb;
+  z-index: 1;
+}
+
+.step-indicator {
+  position: relative;
+  z-index: 2;
+  background: #fff;
+  padding: 0 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.step-circle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #f3f4f6;
+  color: #9ca3af;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  border: 2px solid #e5e7eb;
+  transition: all 0.3s;
+}
+
+.step-label {
+  font-size: 12px;
+  color: #9ca3af;
+  font-weight: 600;
+}
+
+.step-indicator.active .step-circle {
+  background: #14532d; /* Diubah senada dengan header */
+  color: #fff;
+  border-color: #14532d;
+}
+
+.step-indicator.active .step-label {
+  color: #14532d; /* Diubah senada dengan header */
+}
+
+/* BUTTON GROUP */
 .button-row {
   display: flex;
-  justify-content: flex-end;
-  gap: 12px;
+  justify-content: space-between;
+  align-items: center;
   margin-top: 32px;
+  border-top: 1px solid #e5e7eb;
+  padding-top: 20px;
+}
+
+.btn-nav-group {
+  display: flex;
+  gap: 12px;
 }
 
 .btn-cancel {
-  background: #c62828;
+  background-color: #dc2626; /* Diubah menjadi merah solid agar terlihat jelas */
   color: #ffffff;
   border: none;
   padding: 8px 18px;
   font-size: 12px;
+  font-weight: 700;
   border-radius: 4px;
+  cursor: pointer;
 }
+.btn-cancel:hover { background-color: #b91c1c; }
+
+/* WARNA SECONDARY / PREVIOUS YANG BARU (LEBIH JELAS) */
+.btn-secondary {
+  background-color: #ffffff;
+  color: #1f2937;
+  border: 2px solid #6b7280; 
+  padding: 8px 18px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.btn-secondary:hover { 
+  background-color: #f3f4f6;
+  border-color: #1f2937;
+  color: #000000;
+}
+
+.btn-primary {
+  background: #14532d; /* Diubah senada dengan header */
+  color: #fff;
+  border: none;
+  padding: 8px 22px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.btn-primary:hover { background: #064e3b; }
 
 .btn-submit {
   background: #fbc02d;
@@ -178,8 +278,11 @@ textarea::placeholder {
   font-size: 12px;
   font-weight: 700;
   border-radius: 4px;
+  cursor: pointer;
 }
+.btn-submit:hover { background: #f9a825; }
 
+/* MODAL / POPUP */
 .popup-overlay {
   position: fixed;
   inset: 0;
@@ -215,8 +318,8 @@ textarea::placeholder {
 .popup-icon {
   width: 64px;
   height: 64px;
-  background: #e8f5e9;
-  color: #2e7d32;
+  background: #dcfce7; /* Diubah senada dengan penemuan */
+  color: #14532d; /* Diubah senada dengan penemuan */
   font-size: 34px;
   border-radius: 50%;
   display: flex;
@@ -274,13 +377,8 @@ textarea::placeholder {
   background: #e5e7eb;
 }
 
-
 @media (max-width: 768px) {
-  .kehilangan-card {
-    width: 94%;
-  }
-
-  .two-col {
-    grid-template-columns: 1fr;
-  }
+  .kehilangan-card { width: 94%; }
+  .two-col { grid-template-columns: 1fr; }
+  .stepper-container::before { left: 15px; right: 15px; }
 }

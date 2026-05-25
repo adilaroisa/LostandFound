@@ -84,49 +84,41 @@ export default function ListBarangHilangPage() {
           </select>
         </div>
 
-        <table>
-          <thead>
-            <tr>
-              <th style={{ width: '50px', textAlign: 'center' }}>No</th>
-              <th>Nama Barang</th>
-              <th style={{ width: '20%' }}>Waktu Hilang</th>
-              <th style={{ width: '30%' }}>Deskripsi</th>
-              <th style={{ width: '20%' }}>Lokasi Hilang</th>
-            </tr>
-          </thead>
-          <tbody>
-            {items.length === 0 ? (
-              <tr>
-                <td colSpan="5" style={{ textAlign: "center", padding: "40px", color: "#666" }}>
-                  Data tidak ditemukan atau belum ada laporan kehilangan yang disetujui Admin.
-                </td>
-              </tr>
-            ) : (
-              items.map((item, index) => (
-                <tr key={item.id}>
-                  <td style={{ textAlign: 'center' }}>{index + 1}</td>
-                  <td>
-                    <strong>{item.item_name}</strong>
-                    <div className="category" style={{ fontSize: '0.85rem', color: '#666', marginTop: '4px' }}>
-                      {getCategoryName(item.category_id)}
-                    </div>
-                  </td>
-                  <td>
-                    {item.date_event ? new Date(item.date_event).toLocaleDateString("id-ID", {
+        <div className="card-container">
+          {items.length === 0 ? (
+            <div className="empty-state">
+              Data tidak ditemukan atau belum ada laporan kehilangan yang disetujui Admin.
+            </div>
+          ) : (
+            items.map((item) => (
+              <div className="item-card" key={item.id}>
+                
+                <div className="card-header">
+                  <h3>{item.item_name}</h3>
+                  <span className="badge">{getCategoryName(item.category_id)}</span>
+                </div>
+
+                <div className="card-meta">
+                  <span>
+                    📍 {item.location}
+                  </span>
+                  <span>
+                    📅 {item.date_event ? new Date(item.date_event).toLocaleDateString("id-ID", {
                       day: "numeric",
                       month: "long",
                       year: "numeric",
                     }) : "-"}
-                  </td>
-                  <td>{item.description}</td>
-                  <td>
-                    <strong>{item.location}</strong>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+                  </span>
+                </div>
+
+                <div className="card-desc">
+                  <p>📄 {item.description}</p>
+                </div>
+
+              </div>
+            ))
+          )}
+        </div>
       </div>
 
       <section className="alert-wrapper">
