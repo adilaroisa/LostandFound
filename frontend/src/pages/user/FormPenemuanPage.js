@@ -6,7 +6,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import AlertWaspada from './components/AlertWaspada'; 
 import './styleUser/FormPenemuanPage.css'; 
 import { CheckCircleIcon } from '@heroicons/react/24/solid';
-import { PhotoIcon } from '@heroicons/react/24/outline';
+import { PhotoIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import Swal from 'sweetalert2'; 
 
 const CATEGORIES = [
@@ -91,7 +91,7 @@ const FormPenemuanPage = () => {
     const file = e.target.files[0];
     if (file) {
       if (file.size > 2 * 1024 * 1024) { 
-        setErrors(prev => ({ ...prev, item_image: '❌ Ukuran file terlalu besar! Maksimal 2MB.' }));
+        setErrors(prev => ({ ...prev, item_image: 'Ukuran file terlalu besar. Maksimal 2MB.' }));
         clearFile(); return;
       }
       setImageFile(file);
@@ -115,31 +115,31 @@ const FormPenemuanPage = () => {
   const validateStep = (step) => {
     const newErrors = {};
     if (step === 1) {
-      if (!formData.reporter_name) newErrors.reporter_name = "❌ Nama wajib diisi.";
+      if (!formData.reporter_name) newErrors.reporter_name = "Nama wajib diisi.";
       if (!formData.reporter_phone) {
-          newErrors.reporter_phone = "❌ Nomor WhatsApp wajib diisi.";
+          newErrors.reporter_phone = "Nomor WhatsApp wajib diisi.";
       } else {
-          if (!formData.reporter_phone.startsWith('08')) newErrors.reporter_phone = "❌ Wajib diawali '08'.";
-          else if (formData.reporter_phone.length < 10) newErrors.reporter_phone = "❌ Nomor terlalu pendek (Min 10).";
-          else if (formData.reporter_phone.length > 13) newErrors.reporter_phone = "❌ Nomor terlalu panjang (Max 13).";
+          if (!formData.reporter_phone.startsWith('08')) newErrors.reporter_phone = "Wajib diawali '08'.";
+          else if (formData.reporter_phone.length < 10) newErrors.reporter_phone = "Nomor terlalu pendek (Min 10).";
+          else if (formData.reporter_phone.length > 13) newErrors.reporter_phone = "Nomor terlalu panjang (Max 13).";
       }
       if (!formData.identification_number) {
-          newErrors.identification_number = `❌ ${identityRules.label} wajib diisi.`;
+          newErrors.identification_number = `${identityRules.label} wajib diisi.`;
       } else {
           const len = formData.identification_number.length;
-          if (formData.reporter_status === 'mahasiswa' && len !== 11) newErrors.identification_number = `❌ NIM wajib pas 11 digit.`;
-          else if (formData.reporter_status === 'lainnya' && len !== 16) newErrors.identification_number = `❌ NIK KTP wajib pas 16 digit.`;
-          else if (formData.reporter_status === 'foreign_student' && len < 5) newErrors.identification_number = `❌ Passport Number minimal 5 karakter.`;
+          if (formData.reporter_status === 'mahasiswa' && len !== 11) newErrors.identification_number = `NIM wajib 11 digit.`;
+          else if (formData.reporter_status === 'lainnya' && len !== 16) newErrors.identification_number = `NIK KTP wajib 16 digit.`;
+          else if (formData.reporter_status === 'foreign_student' && len < 5) newErrors.identification_number = `Passport Number minimal 5 karakter.`;
       }
     } else if (step === 2) {
-      if (!formData.category_id) newErrors.category_id = "❌ Pilih kategori barang.";
-      if (!formData.item_name) newErrors.item_name = "❌ Nama barang wajib diisi.";
-      if (!formData.description) newErrors.description = "❌ Deskripsi wajib diisi.";
-      if (!formData.date_event) newErrors.date_event = "❌ Tanggal wajib diisi.";
-      if (!formData.location) newErrors.location = "❌ Lokasi wajib diisi.";
-      if (!imageFile) newErrors.item_image = "❌ Foto barang wajib diunggah sebagai bukti.";
+      if (!formData.category_id) newErrors.category_id = "Pilih kategori barang.";
+      if (!formData.item_name) newErrors.item_name = "Nama barang wajib diisi.";
+      if (!formData.description) newErrors.description = "Deskripsi wajib diisi.";
+      if (!formData.date_event) newErrors.date_event = "Tanggal wajib diisi.";
+      if (!formData.location) newErrors.location = "Lokasi wajib diisi.";
+      if (!imageFile) newErrors.item_image = "Foto barang wajib diunggah sebagai bukti.";
     } else if (step === 3) {
-      if (!captchaValue) newErrors.recaptcha = "❌ Mohon centang kotak konfirmasi di atas.";
+      if (!captchaValue) newErrors.recaptcha = "Mohon centang kotak konfirmasi di atas.";
     }
 
     setErrors(newErrors);
@@ -223,11 +223,11 @@ const FormPenemuanPage = () => {
       if (result.success || response.ok) {
         setShowSuccessModal(true);
       } else {
-        setSubmitError(result.message || '❌ Gagal menyimpan data.');
+        setSubmitError(result.message || 'Gagal menyimpan data.');
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     } catch (error) {
-      setSubmitError('❌ Terjadi kesalahan koneksi. Pastikan Backend menyala.');
+      setSubmitError('Terjadi kesalahan koneksi. Pastikan sistem Backend menyala.');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } finally {
       setLoading(false);
@@ -235,17 +235,15 @@ const FormPenemuanPage = () => {
   };
 
   return (
-    <div className="penemuan-page">
+    <div className="form-page-container">
       <Navbar />
-      <div className="penemuan-header">
-        <div className="header-content">
-          <h1>Lapor Penemuan Barang</h1>
-          <p>Terima kasih telah berbaik hati melaporkan barang temuan.</p>
-        </div>
+      <div className="form-header">
+        <h1>Lapor Penemuan Barang</h1>
+        <p>Terima kasih telah berbaik hati melaporkan barang temuan.</p>
       </div>
 
       <main>
-        <div className="penemuan-card">
+        <div className="form-card">
           <div className="stepper-container">
             <div className={`step-indicator ${currentStep >= 1 ? 'active' : ''}`}>
               <div className="step-circle">1</div>
@@ -273,14 +271,14 @@ const FormPenemuanPage = () => {
                 <h2 className="form-section-title">Identitas Penemu</h2>
                 
                 <div className="input-group">
-                  <label className="form-label">Nama<span className="required-star">*</span></label>
+                  <label className="form-label">Nama Lengkap<span className="required-star">*</span></label>
                   <input type="text" name="reporter_name" value={formData.reporter_name} onChange={handleChange} className={`custom-input ${errors.reporter_name ? 'error' : ''}`} placeholder="Masukkan nama lengkap Anda" />
                   {errors.reporter_name && <p className="error-text">{errors.reporter_name}</p>}
                 </div>
 
                 <div className="input-group">
                   <label className="form-label">Nomor WhatsApp<span className="required-star">*</span></label>
-                  <input type="tel" name="reporter_phone" value={formData.reporter_phone} onChange={handleChange} className={`custom-input ${errors.reporter_phone ? 'error' : ''}`} placeholder="08xxxxxxxxxx (Mulai 08)" />
+                  <input type="tel" name="reporter_phone" value={formData.reporter_phone} onChange={handleChange} className={`custom-input ${errors.reporter_phone ? 'error' : ''}`} placeholder="Contoh: 08123456789" maxLength="13" />
                   {errors.reporter_phone && <p className="error-text">{errors.reporter_phone}</p>}
                 </div>
 
@@ -290,7 +288,7 @@ const FormPenemuanPage = () => {
                     {['mahasiswa', 'dosen', 'tendik', 'foreign_student', 'lainnya'].map((status) => (
                       <label key={status}>
                         <input type="radio" name="reporter_status" value={status} checked={formData.reporter_status === status} onChange={handleChange}/>
-                        <span>{status.replace('_', ' ')}</span>
+                        <span>{status.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}</span>
                       </label>
                     ))}
                   </div>
@@ -298,7 +296,7 @@ const FormPenemuanPage = () => {
 
                 <div className="input-group">
                   <label className="form-label">{identityRules.label}<span className="required-star">*</span> <span className="sub-label">{identityRules.subLabel}</span></label>
-                  <input type={identityRules.inputType === 'numeric' ? 'tel' : 'text'} name="identification_number" value={formData.identification_number} onChange={handleChange} className={`custom-input ${errors.identification_number ? 'error' : ''}`} placeholder={identityRules.placeholder} />
+                  <input type={identityRules.inputType === 'numeric' ? 'tel' : 'text'} name="identification_number" value={formData.identification_number} onChange={handleChange} className={`custom-input ${errors.identification_number ? 'error' : ''}`} placeholder={identityRules.placeholder} maxLength={identityRules.maxLength} />
                   {errors.identification_number && <p className="error-text">{errors.identification_number}</p>}
                 </div>
               </div>
@@ -306,7 +304,7 @@ const FormPenemuanPage = () => {
 
             {currentStep === 2 && (
               <div className="step-content">
-                <h2 className="form-section-title mt-section">Data Barang Temuan</h2>
+                <h2 className="form-section-title">Data Barang Temuan</h2>
 
                 <div className="input-group">
                   <label className="form-label">Kategori Barang<span className="required-star">*</span></label>
@@ -325,7 +323,7 @@ const FormPenemuanPage = () => {
 
                 <div className="input-group">
                   <label className="form-label">Deskripsi Detail<span className="required-star">*</span></label>
-                  <textarea name="description" rows="4" value={formData.description} onChange={handleChange} className={`custom-textarea ${errors.description ? 'error' : ''}`} placeholder="Jelaskan ciri-ciri khusus..."></textarea>
+                  <textarea name="description" value={formData.description} onChange={handleChange} className={`custom-textarea ${errors.description ? 'error' : ''}`} placeholder="Jelaskan ciri-ciri khusus barang yang ditemukan..."></textarea>
                   {errors.description && <p className="error-text">{errors.description}</p>}
                 </div>
 
@@ -344,17 +342,19 @@ const FormPenemuanPage = () => {
 
                 <div className="input-group">
                   <label className="form-label">Foto Barang<span className="required-star">*</span></label>
-                  <div className={`upload-box ${errors.item_image ? 'error' : ''}`}>
+                  <div className={`upload-box ${errors.item_image ? 'error' : ''}`} onClick={() => !imagePreview && fileInputRef.current.click()}>
                     <input ref={fileInputRef} type="file" accept="image/png, image/jpeg" onChange={handleFileChange} />
                     {!imagePreview ? (
                       <div>
-                        <PhotoIcon style={{width: 30, color: '#666', margin:'0 auto'}} />
-                        <p>Klik untuk unggah foto (Max 2MB)</p>
+                        <PhotoIcon style={{width: 36, color: '#9ca3af', margin:'0 auto'}} />
+                        <p>Klik untuk unggah foto bukti (Max 2MB)</p>
                       </div>
                     ) : (
-                      <div style={{position:'relative'}}>
-                        <img src={imagePreview} alt="Preview" style={{maxWidth:'100%', borderRadius: 8}} />
-                        <button type="button" onClick={clearFile} className="btn-cancel" style={{position:'absolute', top: 5, right: 5}}>X</button>
+                      <div style={{position:'relative', display: 'inline-block'}}>
+                        <img src={imagePreview} alt="Preview" style={{maxWidth:'100%', maxHeight: '200px', borderRadius: 8}} />
+                        <button type="button" onClick={(e) => { e.stopPropagation(); clearFile(); }} className="btn-cancel" style={{position:'absolute', top: -10, right: -10, padding: 4, borderRadius: '50%'}}>
+                          <XMarkIcon width={20} />
+                        </button>
                       </div>
                     )}
                   </div>
@@ -378,7 +378,7 @@ const FormPenemuanPage = () => {
               {currentStep === 1 ? (
                 <button type="button" onClick={handleCancel} className="btn-cancel">Batalkan Laporan</button>
               ) : (
-                <button type="button" onClick={handlePrev} className="btn-secondary">Sebelumnya</button>
+                <button type="button" onClick={handlePrev} className="btn-secondary">Kembali</button>
               )}
               
               <div className="btn-nav-group">
@@ -399,12 +399,12 @@ const FormPenemuanPage = () => {
       {showSuccessModal && (
         <div className="popup-overlay">
           <div className="popup-card">
-            <div className="popup-icon"><CheckCircleIcon width={40} /></div>
+            <div className="popup-icon"><CheckCircleIcon width={48} /></div>
             <h3>Laporan Terkirim!</h3>
-            <p>Data Anda berhasil disimpan dan akan ditinjau Admin.</p>
+            <p>Data Anda berhasil disimpan dan akan segera ditinjau oleh Admin.</p>
             <div className="popup-buttons">
-              <button onClick={() => navigate('/list-penemuan')} className="popup-primary">Lihat List Barang</button>
-              <button onClick={() => navigate('/')} className="popup-secondary">Kembali ke Home</button>
+              <button onClick={() => navigate('/list-penemuan')} className="popup-primary">Lihat Daftar Barang</button>
+              <button onClick={() => navigate('/')} className="popup-secondary">Kembali ke Beranda</button>
             </div>
           </div>
         </div>
